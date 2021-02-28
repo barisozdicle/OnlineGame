@@ -37,6 +37,9 @@ class Player:
         if keys[pygame.K_DOWN]:
             self.y += self.vel
 
+        self.update()
+
+    def update(self):
         self.rect = (self.x, self.y, self.width, self.height)
 
 
@@ -49,9 +52,10 @@ def make_pos(tup):
     return str(tup[0]) + "," + str(tup[1])
 
 
-def redraw_window(winner, player):
+def redraw_window(winner, player, player2):
     winner.fill((255, 255, 255))
     player.draw(winner)
+    player2.draw(winner)
     pygame.display.update()
 
 
@@ -65,12 +69,18 @@ def main():
 
     while run:
         clock.tick(60)
+
+        p2pos = read_pos(make_pos((p.x, p.y)))
+        p2.x = p2pos[0]
+        p2.y = p2pos[1]
+        p2.update()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
         p.move()
-        redraw_window(win, p)
+        redraw_window(win, p, p2)
 
 
 main()
