@@ -1,4 +1,5 @@
 import pygame
+from network import Network
 
 width = 500
 height = 500
@@ -39,6 +40,15 @@ class Player:
         self.rect = (self.x, self.y, self.width, self.height)
 
 
+def read_pos(str):
+    str = str.split(",")
+    return int(str[0]), int(str[1])
+
+
+def make_pos(tup):
+    return str(tup[0]) + "," + str(tup[1])
+
+
 def redraw_window(winner, player):
     winner.fill((255, 255, 255))
     player.draw(winner)
@@ -47,7 +57,10 @@ def redraw_window(winner, player):
 
 def main():
     run = True
-    p = Player(50, 50, 100, 100, (0, 255, 0))
+    n = Network()
+    start_pos = read_pos(n.get_pos())
+    p = Player(start_pos[0], start_pos[1], 100, 100, (0, 255, 0))
+    p2 = Player(0, 0, 100, 100, (0, 255, 0))
     clock = pygame.time.Clock()
 
     while run:
